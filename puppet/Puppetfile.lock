@@ -1,0 +1,22 @@
+FORGE
+  remote: http://forge.puppetlabs.com
+  specs:
+    puppetlabs/firewall (0.3.0)
+    puppetlabs/ntp (0.3.0)
+      puppetlabs/stdlib (>= 0.1.6)
+    puppetlabs/stdlib (4.0.2)
+
+GIT
+  remote: git://github.com/electrical/puppet-logstash.git
+  ref: master
+  sha: 05c0952d620476964df05cb4e5e350dcf22196e5
+  specs:
+    logstash (0.1.0)
+      puppetlabs/stdlib (>= 3.0.0)
+
+DEPENDENCIES
+  logstash (>= 0)
+  puppetlabs/firewall (>= 0)
+  puppetlabs/ntp (>= 0)
+  puppetlabs/stdlib (>= 0)
+

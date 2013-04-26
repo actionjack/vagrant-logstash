@@ -1,0 +1,11 @@
+forge "http://forge.puppetlabs.com"
+
+mod 'puppetlabs/stdlib'
+
+mod 'puppetlabs/ntp'
+
+mod 'puppetlabs/firewall'
+
+mod 'logstash',
+  :git => 'git://github.com/electrical/puppet-logstash.git'
+
