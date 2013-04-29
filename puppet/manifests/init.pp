@@ -18,7 +18,7 @@ node default {
   }
   yumrepo { 'jpackage':
     descr      => 'JPackage 6 generic',
-    baseurl    => 'http://jenkins.telefonicadev.com:9393/jpackage/noarch',
+    baseurl    => 'http://mirrors.dotsrc.org/jpackage/6.0/generic/free/RPMS/',
     enabled    => $enabled,
     gpgcheck   => $enabled,
     gpgkey     => 'http://www.jpackage.org/jpackage.asc'
@@ -30,5 +30,34 @@ node default {
     gpgcheck => '0',
   }
   include ntp
+
   class { 'logstash': }
+
+  logstash::input::file { 'syslog':
+      path         => ['/var/log/messages'],
+      type         => 'syslog',
+      tags         => ['syslog'],
+      sincedb_path => '/var/log/logstash/.sincedb'
+  }
+  logstash::input::file { 'secure':
+      path         => ['/var/log/secure'],
+      type         => 'syslog',
+      tags         => ['security'],
+      sincedb_path => '/var/log/logstash/.sincedb'
+  }
+  logstash::input::file { 'tomcat':
+      path         => ['/var/log/tomcat7/catalina.out*', '/var/log/tomcat7/localhost_access_log*'],
+      type         => 'tomcat',
+      tags         => ['tomcat'],
+      sincedb_path => '/var/log/logstash/.sincedb'
+  }
+
+  logstash::output::amqp { 'shipper':
+      host          => 'myamqpserver',
+      exchange_type => 'fanout',
+      exchange      => 'logs-exchange',
+      vhost         => 'logs',
+      user          => 'logs',
+      password      => 'thegoodolesecurepaswordihave'
+  }
 }
